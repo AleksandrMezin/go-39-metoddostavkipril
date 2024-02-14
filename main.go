@@ -19,8 +19,12 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/status", func(w http.ResponseWriter, req *http.Request) {
 		w.Header().Set("Content-Type", "text/plain")
-		fmt.Fprintf(w, "Service: module 39\nStatus: OK\n")
+		_, fprintf := fmt.Fprintf(w, "Service: module 39\nStatus: OK\n")
+		if fprintf != nil {
+			return
+		}
 	})
 	s := http.Server{Addr: "0.0.0.0:8080", Handler: mux}
 	log.Fatal(s.ListenAndServe())
+
 }
